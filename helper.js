@@ -58,11 +58,24 @@ async function commands(interaction) {
         const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
-
+        const guildId = interaction.guild_id;
+        const userId = interaction.member.user.id;
+        
+        // Get the guild object
+        const guild = await discord_api.get(`/guilds/${guildId}`).data;
+        
+        // Get the member object for the user
+        const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`).data;
+        
+        // Get the voice state of the member
+        const voiceState = guild.voiceStates.find(vs => vs.user_id === member.user.id);
+        
+        // Get the voice channel of the member, if any
+        const voiceChannel = voiceState?.channel_id;
         if (!serverQueue) {
             const queue = {
                 textChannel: interaction.channel,
-                voiceChannel: interaction.guild.members.cache.get(interaction.member.user.id).voice.channelId,
+                voiceChannel: voiceChannel,
                 connection: null,
                 songs: [],
                 playing: true,
@@ -73,7 +86,6 @@ async function commands(interaction) {
             try {
                 const connection = getVoiceConnection(interaction.guild_id);
                 if (!connection) {
-                    const voiceChannel = interaction.guild.members.cache.get(interaction.member.user.id).voice.channelId;
                     if (!voiceChannel) {
                         return interaction.reply('You need to be in a voice channel to play music');
                     }

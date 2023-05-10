@@ -30,7 +30,7 @@ const queues = new Map();
 
 app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
   const interaction = req.body;
-  const serverQueue = queues.get(interaction.guildId);
+  const serverQueue = queues.get(interaction.guild_id);
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     console.log(interaction.data.name)
