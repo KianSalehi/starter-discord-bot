@@ -29,10 +29,6 @@ const discord_api = axios.create({
   }
 });
 
-app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
-  const interaction = req.body;
-  console.log(interaction)
-  
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
   const serverQueue = queues.get(interaction.guild.id);
@@ -101,6 +97,10 @@ client.on('interactionCreate', async interaction => {
       await interaction.reply('There are no songs in the queue.');
     }
   }
+app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
+  const interaction = req.body;
+  console.log(interaction)
+  
 });
   // const serverQueue = queues.get(interaction.guild_id);
 
