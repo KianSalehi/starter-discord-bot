@@ -32,64 +32,7 @@ const discord_api = axios.create({
 app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
   const interaction = req.body;
   console.log(interaction)
-  // const serverQueue = queues.get(interaction.guild_id);
-
-  // if (interaction.type === InteractionType.APPLICATION_COMMAND) {
-  //   console.log(interaction.data.name)
-  //   if(interaction.data.name == 'yo'){
-  //     return res.send({
-  //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  //       data: {
-  //         content: `Yo ${interaction.member.user.username}!`,
-  //       },
-  //     });
-  //   }
-
-  //   if(interaction.data.name == 'dm'){
-  //     // https://discord.com/developers/docs/resources/user#create-dm
-  //     let c = (await discord_api.post(`/users/@me/channels`,{
-  //       recipient_id: interaction.member.user.id
-  //     })).data
-  //     try{
-  //       // https://discord.com/developers/docs/resources/channel#create-message
-  //       let res = await discord_api.post(`/channels/${c.id}/messages`,{
-  //         content:'Yo! I got your slash command. I am not able to respond to DMs just slash commands.',
-  //       })
-  //       console.log(res.data)
-  //     }catch(e){
-  //       console.log(e)
-  //     }
-
-  //     return res.send({
-  //       // https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
-  //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-  //       data:{
-  //         content:'👍'
-  //       }
-  //     });
-  //   }
-  //   if (interaction.data.name == 'play'){
-
-  //     helper.commands(interaction, discord_api)
-  //   }
-  // }
-
-});
-
-
-
-const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
-});
-const searcher = new YTSearcher(process.env.YTAPI);
-
-
-const queues = new Map();
-
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
-});
-
+  
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
   const serverQueue = queues.get(interaction.guild.id);
@@ -159,6 +102,60 @@ client.on('interactionCreate', async interaction => {
     }
   }
 });
+  // const serverQueue = queues.get(interaction.guild_id);
+
+  // if (interaction.type === InteractionType.APPLICATION_COMMAND) {
+  //   console.log(interaction.data.name)
+  //   if(interaction.data.name == 'yo'){
+  //     return res.send({
+  //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+  //       data: {
+  //         content: `Yo ${interaction.member.user.username}!`,
+  //       },
+  //     });
+  //   }
+
+  //   if(interaction.data.name == 'dm'){
+  //     // https://discord.com/developers/docs/resources/user#create-dm
+  //     let c = (await discord_api.post(`/users/@me/channels`,{
+  //       recipient_id: interaction.member.user.id
+  //     })).data
+  //     try{
+  //       // https://discord.com/developers/docs/resources/channel#create-message
+  //       let res = await discord_api.post(`/channels/${c.id}/messages`,{
+  //         content:'Yo! I got your slash command. I am not able to respond to DMs just slash commands.',
+  //       })
+  //       console.log(res.data)
+  //     }catch(e){
+  //       console.log(e)
+  //     }
+
+  //     return res.send({
+  //       // https://discord.com/developers/docs/interactions/receiving-and-responding#responding-to-an-interaction
+  //       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+  //       data:{
+  //         content:'👍'
+  //       }
+  //     });
+  //   }
+  //   if (interaction.data.name == 'play'){
+
+  //     helper.commands(interaction, discord_api)
+  //   }
+  // }
+
+});
+
+
+
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
+});
+const searcher = new YTSearcher(process.env.YTAPI);
+
+
+const queues = new Map();
+
 
 
 
