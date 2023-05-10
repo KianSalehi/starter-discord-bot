@@ -62,10 +62,10 @@ async function commands(interaction, discord_api) {
         const guildId = interaction.guild_id;
         const userId = interaction.member.user.id;
         // Get the guild object
-        const guild = await discord_api.get(`/guilds/${guildId}`);
+        let guild = await discord_api.get(`/guilds/${guildId}`);
   
         // Get the member object for the user
-        const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
+        let member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
 
         guild = guild.data
         member = member.data
