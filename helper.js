@@ -53,8 +53,7 @@ const queues = new Map();
 //   });
 
 async function commands(interaction) {
-    if (!interaction.isCommand()) return;
-    const serverQueue = queues.get(interaction.guildId);
+    const serverQueue = queues.get(interaction.guild_id);
     if (interaction.commandName === 'play') {
         const searchString = interaction.options.getString('song');
         const videoResult = await searcher.search(searchString, { type: 'video' });
@@ -67,11 +66,11 @@ async function commands(interaction) {
                 songs: [],
                 playing: true,
             };
-            queues.set(interaction.guild.id, queue);
+            queues.set(interaction.guild_id, queue);
             queue.songs.push(song);
             await interaction.reply(`**${song.title}** has been added to the queue!`);
             try {
-                const connection = getVoiceConnection(interaction.guildId);
+                const connection = getVoiceConnection(interaction.guild_id);
                 if (!connection) {
                     const voiceChannel = interaction.member.voice.channel;
                     if (!voiceChannel) {
@@ -80,7 +79,7 @@ async function commands(interaction) {
 
                     const player = joinVoiceChannel({
                         channelId: voiceChannel.id,
-                        guildId: voiceChannel.guild.id,
+                        guildId: voiceChannel.guild_id,
                         adapterCreator: voiceChannel.guild.voiceAdapterCreator,
                     });
                     queue.connection = player;
@@ -88,7 +87,7 @@ async function commands(interaction) {
                 await playSong(interaction, queue.songs[0]);
             } catch (error) {
                 console.error(error);
-                queues.delete(interaction.guild.id);
+                queues.delete(interaction.guild_id);
                 await interaction.reply('There was an error connecting to the voice channel!');
             }
         } else {
@@ -129,12 +128,12 @@ async function commands(interaction) {
 
 async function playSong(interaction, song) {
 
-    const queue = queues.get(interaction.guildId);
+    const queue = queues.get(interaction.guild_id);
     console.log(song)
     if (!song) {
         queue.connection.destroy();
         queue.player.stop();
-        queues.delete(interaction.guild.id);
+        queues.delete(interaction.guild_id);
         return;
     }
     const stream = ytdl(song.url, { filter: 'audioonly' });
@@ -160,6 +159,6 @@ async function playSong(interaction, song) {
 
 
 
-module.exports={
+module.exports = {
     commands
 }
