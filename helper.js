@@ -58,9 +58,7 @@ async function commands(interaction) {
         const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
-        const guild = interaction.guilds.cache.get(interaction.guild_id)
-        const member = guild.member(interaction.member.user.id)
-        const vchannel = member.voice.channel
+
         if (!serverQueue) {
             const queue = {
                 textChannel: interaction.channel,
