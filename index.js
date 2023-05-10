@@ -66,7 +66,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       });
     }
     if (interaction.data.name == 'play'){
-      console.log(interaction.data)
+      console.log(interaction.data.options)
     }
   }
 
