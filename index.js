@@ -1,15 +1,12 @@
 
 // const { clientId, guildId, token, publicKey } = require('./config.json');
 require('dotenv').config()
-const { YTSearcher } = require('ytsearcher');
 const helper = require('./helper')
 const APPLICATION_ID = process.env.APPLICATION_ID 
 const TOKEN = process.env.TOKEN 
 const PUBLIC_KEY = process.env.PUBLIC_KEY || 'not set'
 
-const searcher = new YTSearcher(process.env.YTAPI);
 const axios = require('axios');
-const { createAudioResource, joinVoiceChannel, getVoiceConnection, createAudioPlayer, AudioPlayerStatus } = require('@discordjs/voice');
 const express = require('express');
 const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = require('discord-interactions');
 
