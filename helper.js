@@ -62,9 +62,7 @@ async function commands(interaction, discord_api) {
         const guildId = interaction.guild_id;
         const userId = interaction.member.user.id;
         // Get the guild object
-        let guild = await discord_api.get(`/guilds/${guildId}`, {
-            with_counts: true
-        });
+        let guild = await discord_api.get(`/guilds/${guildId}`);
   
         // Get the member object for the user
         let member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
@@ -75,7 +73,7 @@ async function commands(interaction, discord_api) {
         
         // Get the voice state of the member
 
-        const voiceState = guild.voiceStates.find(vs => vs.user_id === member.user.id);
+        const voiceState = member.voiceStates.find(vs => vs.user_id === member.user.id);
         console.log(voiceState)
         // Get the voice channel of the member, if any
         const voiceChannel = voiceState?.channel_id;
