@@ -65,12 +65,12 @@ async function commands(interaction, discord_api) {
         let guild = await discord_api.get(`/guilds/${guildId}`);
   
         // Get the member object for the user
-        let member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
+        let member = await discord_api.get(`/guilds/${guildId}/voicestates/${userId}`);
 
         guild = guild.data
         member = member.data
         console.log(member)
-        
+        return
         // Get the voice state of the member
 
         const voiceState = member.voiceStates.find(vs => vs.user_id === member.user.id);
