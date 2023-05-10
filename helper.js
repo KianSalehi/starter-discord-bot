@@ -68,6 +68,7 @@ async function commands(interaction, discord_api) {
         const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`).data;
         
         // Get the voice state of the member
+        console.log(voiceState)
         const voiceState = guild.voiceStates.find(vs => vs.user_id === member.user.id);
         
         // Get the voice channel of the member, if any
