@@ -75,8 +75,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       // Get the member object for the user
       const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
       console.log(guildId)
-      console.log(guild)
-      console.log(member)
+      console.log(guild.data)
+      console.log(member['data'])
       // helper.commands(interaction, discord_api)
     }
   }
