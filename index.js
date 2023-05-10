@@ -88,36 +88,6 @@ const queues = new Map();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  client.application.commands.create({
-      name: 'play',
-      description: 'Play a song',
-      options: [{
-        name: 'song',
-        type: 'STRING',
-        description: 'The URL or search term of the song',
-        required: true
-      }]
-    })
-    .then(console.log)
-    .catch(console.error);
-    client.application.commands.create({
-      name: 'stop',
-      description: 'Stop the music',
-    })
-    .then(console.log)
-    .catch(console.error);
-    client.application.commands.create({
-      name: 'queue',
-      description: 'Show the queue of songs',
-    })
-    .then(console.log)
-    .catch(console.error);
-    client.application.commands.create({
-      name: 'skip',
-      description: 'Skip to the next song',
-    })
-    .then(console.log)
-    .catch(console.error);
 });
 
 client.on('interactionCreate', async interaction => {
