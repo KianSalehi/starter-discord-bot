@@ -67,17 +67,8 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       });
     }
     if (interaction.data.name == 'play'){
-      const guildId = interaction.guild_id;
-      const userId = interaction.member.user.id;
-      // Get the guild object
-      const guild = await discord_api.get(`/guilds/${guildId}`);
 
-      // Get the member object for the user
-      const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
-      console.log(guildId)
-      console.log(guild.data)
-      console.log(member['data'])
-      // helper.commands(interaction, discord_api)
+      helper.commands(interaction, discord_api)
     }
   }
 

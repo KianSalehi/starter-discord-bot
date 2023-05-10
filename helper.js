@@ -58,16 +58,29 @@ async function commands(interaction, discord_api) {
         const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
-
         
+        const guildId = interaction.guild_id;
+        const userId = interaction.member.user.id;
+        // Get the guild object
+        const guild = await discord_api.get(`/guilds/${guildId}`);
+  
+        // Get the member object for the user
+        const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`);
+
+        guild = guild.data
+        member = member.data
 
         
         // Get the voice state of the member
 
         const voiceState = guild.voiceStates.find(vs => vs.user_id === member.user.id);
-        
+        console.log(voiceState)
         // Get the voice channel of the member, if any
         const voiceChannel = voiceState?.channel_id;
+        console.log(voiceChannel)
+        if (!voiceState){
+
+        }
         if (!serverQueue) {
             const queue = {
                 textChannel: interaction.channel,
@@ -78,7 +91,8 @@ async function commands(interaction, discord_api) {
             };
             queues.set(interaction.guild_id, queue);
             queue.songs.push(song);
-            await interaction.reply(`**${song.title}** has been added to the queue!`);
+            await discord_api.post('/webhooks/{application.id}/{interaction.token}',{
+                content:`**${song.title}** has been added to the queue!`});
             try {
                 const connection = getVoiceConnection(interaction.guild_id);
                 if (!connection) {
