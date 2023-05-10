@@ -55,7 +55,7 @@ const queues = new Map();
 async function commands(interaction) {
     const serverQueue = queues.get(interaction.guild_id);
     if (interaction.data.name === 'play') {
-        const searchString = interaction.data.options.getString('song');
+        const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
         if (!serverQueue) {
