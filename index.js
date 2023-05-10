@@ -1,12 +1,15 @@
 
 // const { clientId, guildId, token, publicKey } = require('./config.json');
 require('dotenv').config()
+const { YTSearcher } = require('ytsearcher');
+const helper = require('./helper')
 const APPLICATION_ID = process.env.APPLICATION_ID 
 const TOKEN = process.env.TOKEN 
 const PUBLIC_KEY = process.env.PUBLIC_KEY || 'not set'
 
-
-const axios = require('axios')
+const searcher = new YTSearcher(process.env.YTAPI);
+const axios = require('axios');
+const { createAudioResource, joinVoiceChannel, getVoiceConnection, createAudioPlayer, AudioPlayerStatus } = require('@discordjs/voice');
 const express = require('express');
 const { InteractionType, InteractionResponseType, verifyKeyMiddleware } = require('discord-interactions');
 
@@ -25,11 +28,12 @@ const discord_api = axios.create({
   }
 });
 
-
+const queues = new Map();
 
 
 app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
   const interaction = req.body;
+  const serverQueue = queues.get(interaction.guildId);
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     console.log(interaction.data.name)
@@ -66,8 +70,13 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       });
     }
     if (interaction.data.name == 'play'){
-      console.log(interaction.data.options.find(option => option.name === 'song'))
-      console.log(interaction.data)
+      // const searchString = interaction.data.options.find(option => option.name === 'song').value
+      // console.log(searchString)
+
+      // const videoResult = await searcher.search(searchString, { type: 'video' });
+      // const song = { title: videoResult.first.title, url: videoResult.first.url };
+      // if(!serverQueue)
+      helper.commands(interaction)
     }
   }
 
