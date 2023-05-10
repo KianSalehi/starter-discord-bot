@@ -52,7 +52,7 @@ const queues = new Map();
 //       .catch(console.error);
 //   });
 
-async function commands(interaction) {
+async function commands(interaction, discord_api) {
     const serverQueue = queues.get(interaction.guild_id);
     if (interaction.data.name === 'play') {
         const searchString = interaction.data.options.find(option => option.name === 'song').value

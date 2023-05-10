@@ -73,7 +73,7 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       // const videoResult = await searcher.search(searchString, { type: 'video' });
       // const song = { title: videoResult.first.title, url: videoResult.first.url };
       // if(!serverQueue)
-      helper.commands(interaction)
+      helper.commands(interaction, discord_api)
     }
   }
 
