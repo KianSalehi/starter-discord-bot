@@ -58,18 +58,12 @@ async function commands(interaction, discord_api) {
         const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
-        const guildId = interaction.guild_id;
-        const userId = interaction.member.user.id;
+
         
-        // Get the guild object
-        const guild = await discord_api.get(`/guilds/${guildId}`).data;
-        
-        // Get the member object for the user
-        const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`).data;
+
         
         // Get the voice state of the member
-        console.log(guildId)
-        console.log(guild)
+
         const voiceState = guild.voiceStates.find(vs => vs.user_id === member.user.id);
         
         // Get the voice channel of the member, if any

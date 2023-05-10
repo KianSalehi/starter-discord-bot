@@ -67,13 +67,17 @@ app.post('/interactions', verifyKeyMiddleware(PUBLIC_KEY), async (req, res) => {
       });
     }
     if (interaction.data.name == 'play'){
-      // const searchString = interaction.data.options.find(option => option.name === 'song').value
-      // console.log(searchString)
+      const guildId = interaction.guild_id;
+      const userId = interaction.member.user.id;
+      // Get the guild object
+      const guild = await discord_api.get(`/guilds/${guildId}`).data;
 
-      // const videoResult = await searcher.search(searchString, { type: 'video' });
-      // const song = { title: videoResult.first.title, url: videoResult.first.url };
-      // if(!serverQueue)
-      helper.commands(interaction, discord_api)
+      // Get the member object for the user
+      const member = await discord_api.get(`/guilds/${guildId}/members/${userId}`).data;
+      console.log(guildId)
+      console.log(guild)
+      console.log(member)
+      // helper.commands(interaction, discord_api)
     }
   }
 
