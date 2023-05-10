@@ -69,7 +69,7 @@ async function commands(interaction, discord_api) {
 
         guild = guild.data
         member = member.data
-
+        console.log(guild)
         
         // Get the voice state of the member
 
