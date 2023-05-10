@@ -58,10 +58,13 @@ async function commands(interaction) {
         const searchString = interaction.data.options.find(option => option.name === 'song').value
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
+        const guild = interaction.guilds.cache.get(interaction.guild_id)
+        const member = guild.member(interaction.member.user.id)
+        const vchannel = member.voice.channel
         if (!serverQueue) {
             const queue = {
                 textChannel: interaction.channel,
-                voiceChannel: interaction.member.voice.channel,
+                voiceChannel: interaction.guild.members.cache.get(interaction.member.user.id).voice.channelId,
                 connection: null,
                 songs: [],
                 playing: true,
@@ -72,7 +75,7 @@ async function commands(interaction) {
             try {
                 const connection = getVoiceConnection(interaction.guild_id);
                 if (!connection) {
-                    const voiceChannel = interaction.member.voice.channel;
+                    const voiceChannel = interaction.guild.members.cache.get(interaction.member.user.id).voice.channelId;
                     if (!voiceChannel) {
                         return interaction.reply('You need to be in a voice channel to play music');
                     }
