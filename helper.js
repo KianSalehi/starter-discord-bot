@@ -54,8 +54,8 @@ const queues = new Map();
 
 async function commands(interaction) {
     const serverQueue = queues.get(interaction.guild_id);
-    if (interaction.commandName === 'play') {
-        const searchString = interaction.options.getString('song');
+    if (interaction.data.name === 'play') {
+        const searchString = interaction.data.options.getString('song');
         const videoResult = await searcher.search(searchString, { type: 'video' });
         const song = { title: videoResult.first.title, url: videoResult.first.url };
         if (!serverQueue) {
@@ -94,7 +94,7 @@ async function commands(interaction) {
             serverQueue.songs.push(song);
             await interaction.reply(`**${song.title}** has been added to the queue!`);
         }
-    } else if (interaction.commandName === 'stop') {
+    } else if (interaction.data.name === 'stop') {
         if (serverQueue) {
             serverQueue.songs = [];
             serverQueue.connection.destroy();
@@ -103,7 +103,7 @@ async function commands(interaction) {
         } else {
             await interaction.reply('There is nothing playing.');
         }
-    } else if (interaction.commandName === 'skip') {
+    } else if (interaction.data.name === 'skip') {
         if (serverQueue && serverQueue.connection) {
             console.log(serverQueue)
             serverQueue.songs.shift();
@@ -114,7 +114,7 @@ async function commands(interaction) {
             queue.player.stop();
             await interaction.reply('There is nothing playing.');
         }
-    } else if (interaction.commandName === 'queue') {
+    } else if (interaction.data.name === 'queue') {
         if (serverQueue && serverQueue.songs.length > 0) {
             const queue = serverQueue.songs.map((song, index) => `${index + 1}. **${song.title}**`);
             await interaction.reply(`__**Song Queue:**__\n${queue.join('\n')}`);
